@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELEVATE Experience · 11 de julio 2026 · Miami</title>
+<meta name="description" content="ELEVATE Experience: 5 autores, 1 escenario. Expande tu mente, activa tu poder. 11 de julio de 2026, Miami. Cupos limitados.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --marfil:#F6F1E7; --marfil2:#EFE8DA; --navy:#1C3A5E; --navy2:#16314f;
+    --gold:#C9A24B; --goldd:#B98E3C; --sky:#BFD3E6; --peach:#E2A98E; --muted:#6B7585;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Poppins',sans-serif;color:var(--navy);background:var(--marfil);line-height:1.7;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600;line-height:1.15}
+  .serif{font-family:'Playfair Display',serif}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .gold{color:var(--goldd)}
+  .kicker{font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--goldd);font-weight:500}
+  .btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:600;letter-spacing:.04em;text-decoration:none;
+       padding:16px 38px;border-radius:40px;transition:.2s;border:none;cursor:pointer;font-size:1rem}
+  .btn:hover{background:var(--goldd);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--navy);color:var(--navy)}
+  .btn-ghost:hover{background:var(--navy);color:var(--marfil)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(246,241,231,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(28,58,94,.08)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  nav .logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem}
+  nav .logo img{height:34px;width:auto;display:block}
+  nav .logo span{color:var(--goldd)}
+  nav .navcta{font-size:.92rem;padding:10px 24px}
+  .nav-date{color:var(--muted);font-size:.85rem}
+  @media(max-width:680px){.nav-date{display:none}}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;text-align:center;padding:64px 0 0}
+  .hero .kicker{margin-bottom:14px}
+  .arrowup{width:auto;height:30px;margin:0 auto 10px;display:block}
+  .hero h1{font-size:clamp(3rem,9vw,6rem);letter-spacing:.01em}
+  .hero h1 .l2{display:block;color:var(--goldd)}
+  .divider{width:130px;height:2px;background:var(--gold);margin:22px auto}
+  .slogan{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2.6vw,1.6rem);color:var(--navy)}
+  .hero-meta{margin-top:18px;font-weight:500;font-size:1.02rem}
+  .hero-meta .venue{display:block;color:var(--muted);font-weight:400;font-size:.95rem;margin-top:2px}
+  .hero-cta{margin:26px 0 8px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .pill{display:inline-block;background:var(--navy);color:var(--marfil);font-size:.78rem;letter-spacing:.18em;
+        text-transform:uppercase;padding:7px 18px;border-radius:30px;margin-top:8px}
+  /* authors strip */
+  .hero-group{margin-top:30px}
+  .hero-group img{width:100%;max-width:1000px;height:auto;display:block;margin:0 auto;
+       filter:drop-shadow(0 16px 26px rgba(28,58,94,.16))}
+
+  /* SECTION base */
+  section{padding:74px 0}
+  .sec-head{text-align:center;max-width:720px;margin:0 auto 46px}
+  .sec-head h2{font-size:clamp(2rem,4.4vw,2.9rem);margin:10px 0 14px}
+  .sec-head p{color:var(--muted)}
+
+  .alt{background:var(--marfil2)}
+  .navy-sec{background:var(--navy);color:var(--marfil)}
+  .navy-sec h2{color:var(--marfil)} .navy-sec .sec-head p{color:var(--sky)}
+
+  /* value cards */
+  .values{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .vcard{background:var(--marfil);border:1px solid rgba(28,58,94,.1);border-radius:16px;padding:26px 18px;text-align:center}
+  .vcard .num{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);font-weight:700}
+  .vcard h3{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.05rem;margin:8px 0 6px}
+  .vcard p{font-size:.86rem;color:var(--muted);line-height:1.5}
+  @media(max-width:900px){.values{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.values{grid-template-columns:1fr}}
+
+  /* authors grid */
+  .authors{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .acard{background:var(--marfil);border:1px solid rgba(28,58,94,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+  .acard:hover{transform:translateY(-4px);box-shadow:0 16px 30px rgba(28,58,94,.12)}
+  .acard .ph{aspect-ratio:4/5;background:#fff;overflow:hidden}
+  .acard .ph img{width:100%;height:100%;object-fit:cover;object-position:center}
+  .acard .body{padding:22px 22px 26px}
+  .acard h3{font-size:1.4rem;margin-bottom:2px}
+  .acard .book{color:var(--goldd);font-weight:500;font-size:.95rem;margin-bottom:12px}
+  .acard .quote{font-family:'Playfair Display',serif;font-style:italic;color:var(--navy);font-size:1rem;line-height:1.45}
+  @media(max-width:900px){.authors{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.authors{grid-template-columns:1fr}}
+
+  /* packages */
+  .packs{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;align-items:stretch;max-width:760px;margin:0 auto}
+  .pack .price2{font-size:1rem;color:var(--navy);font-weight:500;margin:-2px 0 2px}
+  .pack .free{color:var(--goldd)}
+  .pack{background:var(--marfil);border:1px solid rgba(28,58,94,.12);border-radius:18px;padding:34px 28px;text-align:center;display:flex;flex-direction:column}
+  .pack.featured{border:2px solid var(--gold);position:relative}
+  .pack.featured::before{content:"Más popular";position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+       background:var(--gold);color:var(--navy);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:5px 16px;border-radius:20px}
+  .pack h3{font-size:1.5rem}
+  .pack .price{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--goldd);margin:10px 0 4px;font-weight:700}
+  .pack .price small{font-size:.9rem;color:var(--muted)}
+  .pack ul{list-style:none;text-align:left;margin:20px 0 26px;flex:1}
+  .pack li{padding:8px 0 8px 28px;position:relative;font-size:.92rem;border-bottom:1px solid rgba(28,58,94,.07)}
+  .pack li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700}
+  .pack .btn{width:100%}
+  .editnote{text-align:center;color:var(--muted);font-size:.82rem;margin-top:18px;font-style:italic}
+  @media(max-width:820px){.packs{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
+
+  /* form */
+  .formwrap{max-width:640px;margin:0 auto;background:var(--marfil);border-radius:20px;padding:40px 34px;box-shadow:0 18px 40px rgba(28,58,94,.14)}
+  .navy-sec .formwrap{color:var(--navy)}
+  .formrow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:560px){.formrow{grid-template-columns:1fr}}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.82rem;font-weight:500;margin-bottom:6px;color:var(--navy)}
+  .field input,.field select{width:100%;padding:13px 15px;border:1px solid rgba(28,58,94,.22);border-radius:10px;font-family:inherit;font-size:.95rem;color:var(--navy);background:#fff}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--gold)}
+  .form-note{font-size:.82rem;color:var(--muted);text-align:center;margin-top:6px}
+
+  /* registro (Stripe/Form) */
+  .reg-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:760px;margin:0 auto}
+  .reg-card{background:rgba(255,255,255,.06);border:1px solid rgba(201,162,75,.4);border-radius:16px;padding:28px 20px;text-align:center}
+  .reg-card.featured{border:2px solid var(--gold)}
+  .reg-card .rt{color:var(--sky);font-size:.95rem;font-weight:500;letter-spacing:.02em}
+  .reg-card .rp{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;margin:6px 0 16px}
+  .reg-card .rp.free{color:var(--marfil)}
+  .reg-card .btn{width:100%}
+  .btn-onnavy{background:transparent;border:1.5px solid var(--marfil);color:var(--marfil)}
+  .btn-onnavy:hover{background:var(--marfil);color:var(--navy)}
+  @media(max-width:680px){.reg-opts{grid-template-columns:1fr;max-width:380px}}
+
+  /* footer */
+  footer{background:var(--navy2);color:var(--sky);text-align:center;padding:50px 0 36px}
+  footer .ev{font-family:'Playfair Display',serif;color:var(--marfil);font-size:1.6rem;margin-bottom:6px}
+  footer .ev span{color:var(--gold)}
+  footer a{color:var(--gold);text-decoration:none}
+  footer .small{font-size:.82rem;color:#8095ad;margin-top:18px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><img src="logo.svg" alt="Elevate Experience">ELEVATE <span>Experience</span></div>
+    <div class="nav-date">11 de julio · Miami</div>
+    <a href="#registro" class="btn navcta">Reservar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <img class="arrowup" src="logo.svg" alt="Elevate Experience">
+    <div class="kicker">5 autores · 1 escenario</div>
+    <h1>ELEVATE<span class="l2">Experience</span></h1>
+    <div class="divider"></div>
+    <p class="slogan">Expande tu mente, activa tu poder</p>
+    <div class="hero-meta">
+      Sábado 11 de julio de 2026 · 10:00 a.m. a 2:00 p.m.
+      <span class="venue">Embassy Suites by Hilton — Miami International Airport</span>
+      <span class="venue">3974 NW S River Dr, Miami, FL 33142</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#registro" class="btn">Reserva tu lugar</a>
+      <a href="#autores" class="btn btn-ghost">Conoce a los autores</a>
+    </div>
+    <div><span class="pill">Cupos limitados</span></div>
+    <div class="hero-group"><img src="hero.png" alt="Los 5 autores de ELEVATE Experience"></div>
+  </div>
+</header>
+
+<!-- QUÉ ES -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Un solo día. Un antes y un después.</div>
+      <h2>Cinco historias de transformación, un mismo escenario</h2>
+      <p>Cinco autores que migraron, cayeron y se reinventaron suben al mismo escenario para entregarte cinco poderes que transforman tu vida: <strong>raíz</strong> para construir desde tu origen, <strong>identidad</strong> para sostener quién decides ser, <strong>criterio</strong> para decidir con dirección, <strong>abundancia</strong> para reconocer tu valor y el poder de un <strong>superhumano</strong> para vencer el miedo y dejar huella. No es una charla más: es la experiencia que eleva tu vida al siguiente nivel.</p>
+    </div>
+    <div class="values">
+      <div class="vcard"><div class="num">01</div><h3>Raíz</h3><p>Vuelve a tu origen y construye desde una raíz sana. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Mariaines Matheus</span></p></div>
+      <div class="vcard"><div class="num">02</div><h3>Identidad</h3><p>Deja de vivir en intentos y sostén quién decides ser. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Adriana Leal</span></p></div>
+      <div class="vcard"><div class="num">03</div><h3>Criterio</h3><p>Para, piensa y actúa: decide con dirección. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Luigi Hernández</span></p></div>
+      <div class="vcard"><div class="num">04</div><h3>Abundancia</h3><p>Reconoce tu valor y actívalo en tu vida. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Fabiola Bottaro</span></p></div>
+      <div class="vcard"><div class="num">05</div><h3>SuperHumano</h3><p>Despierta tu poder, vence el miedo y deja huella. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Jairo J. García</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTORES -->
+<section id="autores">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Conoce a los 5 autores</div>
+      <h2>Quiénes te van a acompañar</h2>
+      <p>Cada uno con su libro y su método propio.</p>
+    </div>
+    <div class="authors">
+      <div class="acard">
+        <div class="ph"><img src="card_maria-ines.png" alt="Mariaines Matheus"></div>
+        <div class="body"><h3>Mariaines Matheus</h3><div class="book">El Punto de Origen</div>
+        <p class="quote">"No te falta potencial, te falta raíz; no te falta capacidad, te falta volver a ti."</p></div>
+      </div>
+      <div class="acard">
+        <div class="ph"><img src="card_adriana.png" alt="Adriana Leal"></div>
+        <div class="body"><h3>Adriana Leal</h3><div class="book">Deja de vivir en intentos</div>
+        <p class="quote">"Tal vez no estabas perdido; tal vez estabas desconectado de tu valor."</p></div>
+      </div>
+      <div class="acard">
+        <div class="ph"><img src="card_luigi.png" alt="Luigi Hernández"></div>
+        <div class="body"><h3>Luigi Hernández</h3><div class="book">Para, Piensa y Actúa</div>
+        <p class="quote">"Una decisión no se vuelve estratégica por la velocidad con la que se toma, sino por la calidad del criterio que la sostiene."</p></div>
+      </div>
+      <div class="acard">
+        <div class="ph"><img src="card_fabiola.png" alt="Fabiola Bottaro"></div>
+        <div class="body"><h3>Fabiola Bottaro</h3><div class="book">Mujer Oro 24 Kilates</div>
+        <p class="quote">"La abundancia empieza en cómo te ves a ti misma."</p></div>
+      </div>
+      <div class="acard">
+        <div class="ph"><img src="card_jairo.png" alt="Jairo J. García"></div>
+        <div class="body"><h3>Jairo J. García</h3><div class="book">SuperHumanos</div>
+        <p class="quote">"No fuiste creado en serie. Fuiste creado en serio."</p></div>
+      </div>
+      <div class="acard" style="justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg,#EFE8DA,#E7DECB)">
+        <div class="body">
+          <div class="kicker" style="margin-bottom:8px">11 de julio · Miami</div>
+          <h3 style="margin-bottom:10px">Vívelo en persona</h3>
+          <a href="#registro" class="btn">Reserva tu lugar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAQUETES -->
+<section class="alt" id="paquetes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Elige tu experiencia</div>
+      <h2>Paquetes</h2>
+      <p>Asegura tu lugar. Cupos presenciales limitados.</p>
+    </div>
+    <div class="packs">
+      <div class="pack">
+        <h3>General</h3>
+        <div class="price free">FREE</div>
+        <div class="price2">Entrada gratuita</div>
+        <ul>
+          <li>Acceso general al evento presencial</li>
+          <li>Acceso a la comunidad ELEVATE</li>
+          <li>5 sorteos de un libro físico (al azar)</li>
+          <li>Sujeto a disponibilidad de cupos</li>
+        </ul>
+        <a href="#registro" class="btn btn-ghost">Reservar gratis</a>
+      </div>
+      <div class="pack featured">
+        <h3>VIP</h3>
+        <div class="price">$39.97<small> / 1 ticket</small></div>
+        <div class="price2">o <strong>$69.97</strong> por 2 tickets</div>
+        <ul>
+          <li>Networking pre-apertura (9:00 a 10:00 a.m.)</li>
+          <li>Biblioteca física: los 5 libros autografiados + foto</li>
+          <li>Sesión de preguntas y respuestas (Q&amp;A)</li>
+          <li>Sorteos: iPad y gift card de $100</li>
+        </ul>
+        <a href="#registro" class="btn">Reservar VIP</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRO -->
+<section class="navy-sec" id="registro">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" style="color:var(--gold)">Reserva tu lugar</div>
+      <h2>Asegura tu cupo para ELEVATE Experience</h2>
+      <p>Elige tu acceso. El pago del VIP es seguro vía Stripe. Recibirás la confirmación y los detalles por correo.</p>
+    </div>
+    <div class="reg-opts">
+      <!-- ⚠️ REEMPLAZA href por tu Stripe Payment Link GRATIS ($0, con "No-cost orders" activado) -->
+      <div class="reg-card">
+        <div class="rt">General</div>
+        <div class="rp free">Gratis</div>
+        <a href="https://buy.stripe.com/4gM5kw4so5sB2198hVbZe01" target="_blank" rel="noopener" class="btn btn-onnavy">Registrarme gratis</a>
+      </div>
+      <!-- ⚠️ REEMPLAZA href por tu Stripe Payment Link de $39.97 -->
+      <div class="reg-card featured">
+        <div class="rt">VIP · 1 ticket</div>
+        <div class="rp">$39.97</div>
+        <a href="https://buy.stripe.com/7sY3co0c83kt0X541FbZe02" target="_blank" rel="noopener" class="btn">Comprar con Stripe</a>
+      </div>
+      <!-- ⚠️ REEMPLAZA href por tu Stripe Payment Link de $69.97 -->
+      <div class="reg-card">
+        <div class="rt">VIP · 2 tickets</div>
+        <div class="rp">$69.97</div>
+        <a href="https://buy.stripe.com/eVq28k3ok4oxgW355JbZe03" target="_blank" rel="noopener" class="btn">Comprar con Stripe</a>
+      </div>
+    </div>
+    <p class="form-note" style="color:var(--sky);margin-top:22px;text-align:center">Cupos presenciales limitados · Pago seguro con tarjeta vía Stripe · ¿No alcanzas lugar? Apúntate también a los webinars posteriores.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="ev">ELEVATE <span>Experience</span></div>
+    <div>Sábado 11 de julio de 2026 · 10:00 a.m. a 2:00 p.m.</div>
+    <div>Embassy Suites by Hilton — Miami International Airport</div>
+    <div>3974 NW S River Dr, Miami, FL 33142</div>
+    <div style="margin-top:14px"><a href="#registro" class="btn navcta">Reserva tu lugar</a></div>
+    <div style="margin-top:16px;font-size:.9rem">Contacto: <a href="mailto:admin@lospoderesdelexito.com">admin@lospoderesdelexito.com</a></div>
+    <p class="small">© 2026 ELEVATE Experience · Expande tu mente, activa tu poder.</p>
+  </div>
+</footer>
+
+</body>
+</html>
