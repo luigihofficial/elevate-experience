@@ -13,7 +13,16 @@ module.exports = async (req, res) => {
       name: b.name,
       email: b.email,
       phone: b.phone || '',
-      metadata: { plan: 'general', evento: 'ELEVATE Experience', fuente: b.fuente || '' }
+      address: { city: b.ciudad || '', state: b.estado || '' },
+      metadata: {
+        plan: 'general',
+        evento: 'ELEVATE Experience',
+        fuente: b.fuente || '',
+        telefono: b.phone || '',
+        ciudad: b.ciudad || '',
+        estado: b.estado || '',
+        pais: b.pais || ''
+      }
     });
     const code = customer.id.slice(-10).toUpperCase();
 
