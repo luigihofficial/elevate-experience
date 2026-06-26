@@ -5,6 +5,20 @@ const { sendTicketEmail } = require('../lib/sendTicketEmail');
 const PLAN_LABELS = { vip1: 'VIP · 1 ticket', vip2: 'VIP Dúo · 2 tickets' };
 const SITE_URL = 'https://elevate.lospoderesdelexito.com';
 
+async function registrarYEnviar(opts) {
+  try {
+    await stripe.customers.create({
+      name: opts.nombre || 'Asistente ELEVATE',
+      email: opts.correo,
+      phone: opts.telefono || '',
+      metadata: { plan: opts.plan, rol: opts.rol, evento: 'ELEVATE Experience', fuente: opts.fuente || '', pago_de: opts.pagoDe || '' }
+    });
+  } catch (e) { /* el lead puede fallar sin frenar el correo */ }
+  const url = SITE_URL + '/gracias.html?type=guest&tier=VIP&plan=' +
+    encodeURIComponent(opts.planLabel) + '&name=' + encodeURIComponent(opts.nombre || '') + '&code=' + opts.code;
+  return sendTicketEmail({ type: 'vip', name: opts.nombre, email: opts.correo, code: opts.code, planLabel: opts.planLabel, ticketUrl: url });
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.status(405).json({ error: 'Method not allowed' }); return; }
   try {
@@ -17,30 +31,27 @@ module.exports = async (req, res) => {
     const d = session.customer_details || {};
     const m = session.metadata || {};
     const plan = m.plan || '';
-    const code = sid.slice(-10).toUpperCase();
     const planLabel = PLAN_LABELS[plan] || 'VIP';
-    const ticketUrl = SITE_URL + '/gracias.html?session_id=' + encodeURIComponent(sid);
+    const code1 = sid.slice(-10).toUpperCase();
 
-    const r1 = await sendTicketEmail({ type: 'vip', name: d.name, email: d.email, code, planLabel, ticketUrl });
-
-    let second = null;
-    if (plan === 'vip2' && m.seg_correo) {
-      try {
-        const cust = await stripe.customers.create({
-          name: m.seg_nombre || 'Acompañante VIP',
-          email: m.seg_correo,
-          phone: m.seg_telefono || '',
-          metadata: { plan: 'vip2', rol: 'acompanante', evento: 'ELEVATE Experience', compra_de: d.email || '' }
-        });
-        const code2 = ('G' + sid.slice(-9)).toUpperCase();
-        const url2 = SITE_URL + '/gracias.html?type=guest&tier=VIP&plan=' +
-          encodeURIComponent('VIP · Acompañante') + '&name=' + encodeURIComponent(m.seg_nombre || '') + '&code=' + code2;
-        const r2 = await sendTicketEmail({ type: 'vip', name: m.seg_nombre, email: m.seg_correo, code: code2, planLabel: 'VIP · Acompañante', ticketUrl: url2 });
-        second = { emailed: !!r2.ok, code: code2 };
-      } catch (e) { second = { emailed: false, error: e.message }; }
+    const results = {};
+    if (m.att1_correo) {
+      results.a1 = await registrarYEnviar({
+        nombre: m.att1_nombre, correo: m.att1_correo, telefono: m.att1_telefono,
+        code: code1, plan: plan, rol: 'asistente1', planLabel: plan === 'vip2' ? 'VIP · 1.er asistente' : planLabel,
+        fuente: m.fuente, pagoDe: d.email || ''
+      });
+    }
+    if (plan === 'vip2' && m.att2_correo) {
+      const code2 = ('G' + sid.slice(-9)).toUpperCase();
+      results.a2 = await registrarYEnviar({
+        nombre: m.att2_nombre, correo: m.att2_correo, telefono: m.att2_telefono,
+        code: code2, plan: plan, rol: 'asistente2', planLabel: 'VIP · Invitado',
+        fuente: m.fuente, pagoDe: d.email || ''
+      });
     }
 
-    res.status(200).json({ ok: !!r1.ok, buyer: r1, second: second });
+    res.status(200).json({ ok: true, results: results });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
