@@ -6,6 +6,8 @@ const PLANS = {
   vip2: { name: 'Entrada VIP Dúo · 2 tickets — ELEVATE Experience', amount: 6997 }
 };
 
+function take(v, n) { return (v || '').slice(0, n); }
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.status(405).json({ error: 'Method not allowed' }); return; }
   try {
@@ -19,26 +21,28 @@ module.exports = async (req, res) => {
 
     const metadata = {
       plan: plan,
-      fuente: (body.fuente || '').slice(0, 100),
-      att1_nombre: (a1.nombre || '').slice(0, 200),
-      att1_correo: (a1.correo || '').slice(0, 200),
-      att1_telefono: (a1.telefono || '').slice(0, 50)
+      fuente: take(body.fuente, 100),
+      att1_nombre: take(a1.nombre, 200),
+      att1_correo: take(a1.correo, 200),
+      att1_telefono: take(a1.telefono, 50),
+      att1_ciudad: take(a1.ciudad, 100),
+      att1_estado: take(a1.estado, 100),
+      att1_pais: take(a1.pais, 80)
     };
     if (plan === 'vip2') {
-      metadata.att2_nombre = (a2.nombre || '').slice(0, 200);
-      metadata.att2_correo = (a2.correo || '').slice(0, 200);
-      metadata.att2_telefono = (a2.telefono || '').slice(0, 50);
+      metadata.att2_nombre = take(a2.nombre, 200);
+      metadata.att2_correo = take(a2.correo, 200);
+      metadata.att2_telefono = take(a2.telefono, 50);
+      metadata.att2_ciudad = take(a2.ciudad, 100);
+      metadata.att2_estado = take(a2.estado, 100);
+      metadata.att2_pais = take(a2.pais, 80);
     }
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       mode: 'payment',
       line_items: [{
-        price_data: {
-          currency: 'usd',
-          product_data: { name: selected.name },
-          unit_amount: selected.amount
-        },
+        price_data: { currency: 'usd', product_data: { name: selected.name }, unit_amount: selected.amount },
         quantity: 1
       }],
       metadata: metadata,
