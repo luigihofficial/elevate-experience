@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pago seguro · ELEVATE Experience</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+  :root{--marfil:#F6F1E7;--navy:#1C3A5E;--gold:#C9A24B;--goldd:#B98E3C;--muted:#6B7585}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--marfil);font-family:'Poppins',sans-serif;color:var(--navy)}
+  .wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .top img{height:30px}
+  .top .brand{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem}
+  .top .brand span{color:var(--goldd)}
+  h1{font-family:'Playfair Display',serif;font-size:1.7rem;margin:6px 0 2px}
+  .sum{background:#fff;border:1px solid rgba(28,58,94,.12);border-radius:14px;padding:16px 18px;margin:14px 0 20px;display:flex;justify-content:space-between;align-items:center}
+  .sum .p{font-weight:600}
+  .sum .price{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--goldd);font-weight:700}
+  #checkout{margin-top:8px}
+  .back{display:inline-block;margin-top:18px;color:var(--muted);text-decoration:none;font-size:.92rem}
+  .back:hover{color:var(--navy)}
+  .err{background:#fff3f0;border:1px solid #e2a98e;color:#8a3b22;padding:14px 16px;border-radius:12px;display:none}
+  .loading{color:var(--muted);padding:30px 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img src="logo.svg" alt="Elevate"><div class="brand">ELEVATE <span>Experience</span></div></div>
+  <h1>Pago seguro</h1>
+  <div class="sum"><div class="p" id="plan-name">Entrada VIP</div><div class="price" id="plan-price">—</div></div>
+  <div class="err" id="err"></div>
+  <div class="loading" id="loading">Cargando el pago seguro…</div>
+  <div id="checkout"></div>
+  <a class="back" href="/#registro">&larr; Volver a la página del evento</a>
+</div>
+<script>
+(async function(){
+  const params = new URLSearchParams(location.search);
+  const plan = params.get('plan') || 'vip1';
+  const meta = {
+    vip1: { name: 'VIP · 1 ticket', price: '$39.97' },
+    vip2: { name: 'VIP Dúo · 2 tickets', price: '$69.97' }
+  }[plan] || { name: 'Entrada VIP', price: '' };
+  document.getElementById('plan-name').textContent = meta.name;
+  document.getElementById('plan-price').textContent = meta.price;
+
+  const errEl = document.getElementById('err');
+  const loadEl = document.getElementById('loading');
+  function showErr(msg){ loadEl.style.display='none'; errEl.style.display='block'; errEl.textContent = msg; }
+
+  try {
+    const cfg = await fetch('/api/config').then(r=>r.json());
+    if(!cfg.publishableKey){ showErr('Falta configurar la clave de Stripe (STRIPE_PUBLISHABLE_KEY) en Vercel.'); return; }
+    const stripe = Stripe(cfg.publishableKey);
+
+    const resp = await fetch('/api/create-checkout-session', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan })
+    });
+    const data = await resp.json();
+    if(!resp.ok || !data.clientSecret){ showErr(data.error || 'No se pudo iniciar el pago.'); return; }
+
+    const checkout = await stripe.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+    loadEl.style.display='none';
+    checkout.mount('#checkout');
+  } catch(e){ showErr('Error: ' + e.message); }
+})();
+</script>
+</body>
+</html>
