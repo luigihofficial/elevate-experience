@@ -21,10 +21,8 @@ module.exports = async (req, res) => {
     const planLabel = PLAN_LABELS[plan] || 'VIP';
     const ticketUrl = SITE_URL + '/gracias.html?session_id=' + encodeURIComponent(sid);
 
-    // 1) Ticket del comprador (1er asistente)
     const r1 = await sendTicketEmail({ type: 'vip', name: d.name, email: d.email, code, planLabel, ticketUrl });
 
-    // 2) VIP Dúo: registrar y enviar ticket al 2do asistente
     let second = null;
     if (plan === 'vip2' && m.seg_correo) {
       try {
@@ -34,7 +32,7 @@ module.exports = async (req, res) => {
           phone: m.seg_telefono || '',
           metadata: { plan: 'vip2', rol: 'acompanante', evento: 'ELEVATE Experience', compra_de: d.email || '' }
         });
-        const code2 = cust.id.slice(-10).toUpperCase();
+        const code2 = ('G' + sid.slice(-9)).toUpperCase();
         const url2 = SITE_URL + '/gracias.html?type=guest&tier=VIP&plan=' +
           encodeURIComponent('VIP · Acompañante') + '&name=' + encodeURIComponent(m.seg_nombre || '') + '&code=' + code2;
         const r2 = await sendTicketEmail({ type: 'vip', name: m.seg_nombre, email: m.seg_correo, code: code2, planLabel: 'VIP · Acompañante', ticketUrl: url2 });
