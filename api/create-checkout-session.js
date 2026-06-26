@@ -14,6 +14,38 @@ module.exports = async (req, res) => {
     if (!selected) { res.status(400).json({ error: 'Plan invalido' }); return; }
     const origin = req.headers.origin || ('https://' + req.headers.host);
 
+    const customFields = [{
+      key: 'fuente',
+      label: { type: 'custom', custom: '¿Como supiste del evento?' },
+      type: 'dropdown',
+      dropdown: { options: [
+        { label: 'Instagram', value: 'instagram' },
+        { label: 'Facebook', value: 'facebook' },
+        { label: 'TikTok', value: 'tiktok' },
+        { label: 'Por uno de los autores', value: 'autor' },
+        { label: 'Recomendacion de un amigo', value: 'amigo' },
+        { label: 'WhatsApp', value: 'whatsapp' },
+        { label: 'Correo electronico', value: 'correo' },
+        { label: 'Otro', value: 'otro' }
+      ] }
+    }];
+
+    // VIP Dúo: pedir datos de la 2da persona para capturar ese lead
+    if (plan === 'vip2') {
+      customFields.push({
+        key: 'segundonombre',
+        label: { type: 'custom', custom: 'Nombre del 2do asistente' },
+        type: 'text',
+        optional: false
+      });
+      customFields.push({
+        key: 'segundocorreo',
+        label: { type: 'custom', custom: 'Correo del 2do asistente' },
+        type: 'text',
+        optional: false
+      });
+    }
+
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       mode: 'payment',
@@ -28,21 +60,7 @@ module.exports = async (req, res) => {
       metadata: { plan: plan },
       phone_number_collection: { enabled: true },
       billing_address_collection: 'required',
-      custom_fields: [{
-        key: 'fuente',
-        label: { type: 'custom', custom: '¿Como supiste del evento?' },
-        type: 'dropdown',
-        dropdown: { options: [
-          { label: 'Instagram', value: 'instagram' },
-          { label: 'Facebook', value: 'facebook' },
-          { label: 'TikTok', value: 'tiktok' },
-          { label: 'Por uno de los autores', value: 'autor' },
-          { label: 'Recomendacion de un amigo', value: 'amigo' },
-          { label: 'WhatsApp', value: 'whatsapp' },
-          { label: 'Correo electronico', value: 'correo' },
-          { label: 'Otro', value: 'otro' }
-        ] }
-      }],
+      custom_fields: customFields,
       return_url: origin + '/gracias.html?session_id={CHECKOUT_SESSION_ID}'
     });
 
