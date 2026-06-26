@@ -68,10 +68,11 @@
 
   /* value cards */
   .values{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
-  .vcard{background:var(--marfil);border:1px solid rgba(28,58,94,.1);border-radius:16px;padding:26px 18px;text-align:center}
+  .vcard{background:var(--marfil);border:1px solid rgba(28,58,94,.1);border-radius:16px;padding:26px 18px;text-align:center;display:flex;flex-direction:column}
   .vcard .num{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);font-weight:700}
   .vcard h3{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.05rem;margin:8px 0 6px}
-  .vcard p{font-size:.86rem;color:var(--muted);line-height:1.5}
+  .vcard p{font-size:.86rem;color:var(--muted);line-height:1.5;margin:0}
+  .vcard .who{margin-top:auto;padding-top:12px;color:var(--goldd);font-size:.8rem;font-weight:500}
   @media(max-width:900px){.values{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:520px){.values{grid-template-columns:1fr}}
 
@@ -178,11 +179,11 @@
       <p>Cinco autores que migraron, cayeron y se reinventaron suben al mismo escenario para entregarte cinco poderes que transforman tu vida: <strong>raíz</strong> para construir desde tu origen, <strong>identidad</strong> para sostener quién decides ser, <strong>criterio</strong> para decidir con dirección, <strong>abundancia</strong> para reconocer tu valor y el poder de un <strong>superhumano</strong> para vencer el miedo y dejar huella. No es una charla más: es la experiencia que eleva tu vida al siguiente nivel.</p>
     </div>
     <div class="values">
-      <div class="vcard"><div class="num">01</div><h3>Raíz</h3><p>Vuelve a tu origen y construye desde una raíz sana. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Mariaines Matheus</span></p></div>
-      <div class="vcard"><div class="num">02</div><h3>Identidad</h3><p>Deja de vivir en intentos y sostén quién decides ser. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Adriana Leal</span></p></div>
-      <div class="vcard"><div class="num">03</div><h3>Criterio</h3><p>Para, piensa y actúa: decide con dirección. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Luigi Hernández</span></p></div>
-      <div class="vcard"><div class="num">04</div><h3>Abundancia</h3><p>Reconoce tu valor y actívalo en tu vida. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Fabiola Bottaro</span></p></div>
-      <div class="vcard"><div class="num">05</div><h3>SuperHumano</h3><p>Despierta tu poder, vence el miedo y deja huella. <span style="display:block;color:var(--goldd);font-size:.8rem;margin-top:6px">Jairo J. García</span></p></div>
+      <div class="vcard"><div class="num">01</div><h3>Raíz</h3><p>Vuelve a tu origen y construye desde una raíz sana.</p><div class="who">Mariaines Matheus</div></div>
+      <div class="vcard"><div class="num">02</div><h3>Identidad</h3><p>Deja de vivir en intentos y sostén quién decides ser.</p><div class="who">Adriana Leal</div></div>
+      <div class="vcard"><div class="num">03</div><h3>Criterio</h3><p>Para, piensa y actúa: decide con dirección.</p><div class="who">Luigi Hernández</div></div>
+      <div class="vcard"><div class="num">04</div><h3>Abundancia</h3><p>Reconoce tu valor y actívalo en tu vida.</p><div class="who">Fabiola Bottaro</div></div>
+      <div class="vcard"><div class="num">05</div><h3>SuperHumano</h3><p>Despierta tu poder, vence el miedo y deja huella.</p><div class="who">Jairo J. García</div></div>
     </div>
   </div>
 </section>
