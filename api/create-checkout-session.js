@@ -9,41 +9,18 @@ const PLANS = {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.status(405).json({ error: 'Method not allowed' }); return; }
   try {
-    const plan = (req.body && req.body.plan) || '';
+    const body = req.body || {};
+    const plan = body.plan || '';
     const selected = PLANS[plan];
     if (!selected) { res.status(400).json({ error: 'Plan invalido' }); return; }
     const origin = req.headers.origin || ('https://' + req.headers.host);
+    const seg = body.segundo || {};
 
-    const customFields = [{
-      key: 'fuente',
-      label: { type: 'custom', custom: '¿Como supiste del evento?' },
-      type: 'dropdown',
-      dropdown: { options: [
-        { label: 'Instagram', value: 'instagram' },
-        { label: 'Facebook', value: 'facebook' },
-        { label: 'TikTok', value: 'tiktok' },
-        { label: 'Por uno de los autores', value: 'autor' },
-        { label: 'Recomendacion de un amigo', value: 'amigo' },
-        { label: 'WhatsApp', value: 'whatsapp' },
-        { label: 'Correo electronico', value: 'correo' },
-        { label: 'Otro', value: 'otro' }
-      ] }
-    }];
-
-    // VIP Dúo: pedir datos de la 2da persona para capturar ese lead
+    const metadata = { plan: plan };
     if (plan === 'vip2') {
-      customFields.push({
-        key: 'segundonombre',
-        label: { type: 'custom', custom: 'Nombre del 2do asistente' },
-        type: 'text',
-        optional: false
-      });
-      customFields.push({
-        key: 'segundocorreo',
-        label: { type: 'custom', custom: 'Correo del 2do asistente' },
-        type: 'text',
-        optional: false
-      });
+      metadata.seg_nombre = (seg.nombre || '').slice(0, 200);
+      metadata.seg_correo = (seg.correo || '').slice(0, 200);
+      metadata.seg_telefono = (seg.telefono || '').slice(0, 50);
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -57,10 +34,24 @@ module.exports = async (req, res) => {
         },
         quantity: 1
       }],
-      metadata: { plan: plan },
+      metadata: metadata,
       phone_number_collection: { enabled: true },
       billing_address_collection: 'required',
-      custom_fields: customFields,
+      custom_fields: [{
+        key: 'fuente',
+        label: { type: 'custom', custom: '¿Como supiste del evento?' },
+        type: 'dropdown',
+        dropdown: { options: [
+          { label: 'Instagram', value: 'instagram' },
+          { label: 'Facebook', value: 'facebook' },
+          { label: 'TikTok', value: 'tiktok' },
+          { label: 'Por uno de los autores', value: 'autor' },
+          { label: 'Recomendacion de un amigo', value: 'amigo' },
+          { label: 'WhatsApp', value: 'whatsapp' },
+          { label: 'Correo electronico', value: 'correo' },
+          { label: 'Otro', value: 'otro' }
+        ] }
+      }],
       return_url: origin + '/gracias.html?session_id={CHECKOUT_SESSION_ID}'
     });
 
