@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro gratis · ELEVATE Experience</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--marfil:#F6F1E7;--navy:#1C3A5E;--gold:#C9A24B;--goldd:#B98E3C;--muted:#6B7585}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--marfil);font-family:'Poppins',sans-serif;color:var(--navy)}
+  .wrap{max-width:560px;margin:0 auto;padding:28px 20px 60px}
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .top img{height:30px}
+  .top .brand{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem}
+  .top .brand span{color:var(--goldd)}
+  h1{font-family:'Playfair Display',serif;font-size:1.7rem;margin:6px 0 2px}
+  .sub{color:var(--muted);margin-bottom:20px;font-size:.95rem}
+  .card{background:#fff;border:1px solid rgba(28,58,94,.12);border-radius:16px;padding:22px}
+  label{display:block;font-size:.85rem;font-weight:500;margin:12px 0 5px}
+  input,select{width:100%;padding:12px 13px;border:1px solid rgba(28,58,94,.2);border-radius:10px;font-family:'Poppins';font-size:.98rem;color:var(--navy);background:#fff}
+  input:focus,select:focus{outline:none;border-color:var(--gold)}
+  .btn{margin-top:18px;width:100%;border:none;cursor:pointer;font-family:'Poppins';font-weight:600;font-size:1rem;padding:14px;border-radius:999px;background:var(--gold);color:var(--navy)}
+  .btn:disabled{opacity:.6;cursor:default}
+  .err{background:#fff3f0;border:1px solid #e2a98e;color:#8a3b22;padding:12px 14px;border-radius:10px;margin-top:14px;display:none;font-size:.9rem}
+  .back{display:inline-block;margin-top:16px;color:var(--muted);text-decoration:none;font-size:.9rem}
+  .back:hover{color:var(--navy)}
+  .free{color:var(--goldd);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img src="logo.svg" alt="Elevate"><div class="brand">ELEVATE <span>Experience</span></div></div>
+  <h1>Registro General <span class="free">— Gratis</span></h1>
+  <p class="sub">Asegura tu lugar para el sábado 11 de julio de 2026, Miami. Cupos limitados.</p>
+  <div class="card">
+    <form id="form">
+      <label for="name">Nombre completo *</label>
+      <input id="name" name="name" type="text" required autocomplete="name">
+      <label for="email">Correo electrónico *</label>
+      <input id="email" name="email" type="email" required autocomplete="email">
+      <label for="phone">Teléfono</label>
+      <input id="phone" name="phone" type="tel" autocomplete="tel">
+      <label for="fuente">¿Cómo supiste del evento?</label>
+      <select id="fuente" name="fuente">
+        <option value="">Selecciona…</option>
+        <option>Instagram</option>
+        <option>Facebook</option>
+        <option>TikTok</option>
+        <option>Por uno de los autores</option>
+        <option>Recomendación de un amigo</option>
+        <option>WhatsApp</option>
+        <option>Correo electrónico</option>
+        <option>Otro</option>
+      </select>
+      <button class="btn" id="submit" type="submit">Confirmar mi registro</button>
+      <div class="err" id="err"></div>
+    </form>
+  </div>
+  <a class="back" href="/#registro">&larr; Volver a la página del evento</a>
+</div>
+<script>
+const form = document.getElementById('form');
+const btn = document.getElementById('submit');
+const errEl = document.getElementById('err');
+form.addEventListener('submit', async function(e){
+  e.preventDefault();
+  errEl.style.display='none';
+  btn.disabled = true; btn.textContent = 'Registrando…';
+  const payload = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    fuente: document.getElementById('fuente').value
+  };
+  try {
+    const r = await fetch('/api/register-general', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+    });
+    const d = await r.json();
+    if(!r.ok || !d.ok){ throw new Error(d.error || 'No se pudo completar el registro.'); }
+    const q = new URLSearchParams({ type:'general', name: payload.name, code: d.code });
+    location.href = '/gracias.html?' + q.toString();
+  } catch(err){
+    errEl.textContent = err.message; errEl.style.display='block';
+    btn.disabled = false; btn.textContent = 'Confirmar mi registro';
+  }
+});
+</script>
+</body>
+</html>
