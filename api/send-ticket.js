@@ -11,7 +11,13 @@ async function registrarYEnviar(opts) {
       name: opts.nombre || 'Asistente ELEVATE',
       email: opts.correo,
       phone: opts.telefono || '',
-      metadata: { plan: opts.plan, rol: opts.rol, evento: 'ELEVATE Experience', fuente: opts.fuente || '', pago_de: opts.pagoDe || '' }
+      address: { city: opts.ciudad || '', state: opts.estado || '' },
+      metadata: {
+        plan: opts.plan, rol: opts.rol, evento: 'ELEVATE Experience',
+        fuente: opts.fuente || '', telefono: opts.telefono || '',
+        ciudad: opts.ciudad || '', estado: opts.estado || '', pais: opts.pais || '',
+        pago_de: opts.pagoDe || ''
+      }
     });
   } catch (e) { /* el lead puede fallar sin frenar el correo */ }
   const url = SITE_URL + '/gracias.html?type=guest&tier=VIP&plan=' +
@@ -38,7 +44,9 @@ module.exports = async (req, res) => {
     if (m.att1_correo) {
       results.a1 = await registrarYEnviar({
         nombre: m.att1_nombre, correo: m.att1_correo, telefono: m.att1_telefono,
-        code: code1, plan: plan, rol: 'asistente1', planLabel: plan === 'vip2' ? 'VIP · 1.er asistente' : planLabel,
+        ciudad: m.att1_ciudad, estado: m.att1_estado, pais: m.att1_pais,
+        code: code1, plan: plan, rol: 'asistente1',
+        planLabel: plan === 'vip2' ? 'VIP · 1.er asistente' : planLabel,
         fuente: m.fuente, pagoDe: d.email || ''
       });
     }
@@ -46,6 +54,7 @@ module.exports = async (req, res) => {
       const code2 = ('G' + sid.slice(-9)).toUpperCase();
       results.a2 = await registrarYEnviar({
         nombre: m.att2_nombre, correo: m.att2_correo, telefono: m.att2_telefono,
+        ciudad: m.att2_ciudad, estado: m.att2_estado, pais: m.att2_pais,
         code: code2, plan: plan, rol: 'asistente2', planLabel: 'VIP · Invitado',
         fuente: m.fuente, pagoDe: d.email || ''
       });
