@@ -129,7 +129,7 @@
     renderTicket({
       name: name, code: code, tier: 'GENERAL', planLabel: 'Entrada general',
       title: '¡Gracias por tu registro!',
-      sub: 'Tu lugar está confirmado. Guarda o descarga tu ticket:'
+      sub: 'Tu lugar está confirmado. Te enviamos tu ticket por correo. Guarda o descarga tu ticket:'
     });
     return;
   }
@@ -144,8 +144,14 @@
       name: d.name, code: d.code || sid.slice(-10).toUpperCase(),
       tier: 'VIP', planLabel: d.plan_label || 'Acceso preferencial',
       title: '¡Gracias por tu compra!',
-      sub: 'Tu lugar está confirmado. Te enviamos el recibo a tu correo. Guarda o descarga tu ticket:'
+      sub: 'Tu lugar está confirmado. Te enviamos tu ticket por correo. Guarda o descarga tu ticket:'
     });
+    try {
+      if (!localStorage.getItem('ticket_sent_' + sid)) {
+        fetch('/api/send-ticket', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ session_id: sid }) });
+        localStorage.setItem('ticket_sent_' + sid, '1');
+      }
+    } catch(e){}
   } catch(e){ fail('Error verificando tu registro: ' + e.message); }
 })();
 </script>
