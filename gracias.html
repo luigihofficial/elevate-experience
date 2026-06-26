@@ -122,14 +122,17 @@
     });
   }
 
-  // --- Registro GENERAL (gratis) ---
-  if (params.get('type') === 'general') {
+  // --- Registro GENERAL (gratis) o ticket de ACOMPAÑANTE (guest) ---
+  const _t = params.get('type');
+  if (_t === 'general' || _t === 'guest') {
     const name = params.get('name') || 'Asistente ELEVATE';
     const code = params.get('code') || '';
+    const tier = params.get('tier') || 'GENERAL';
+    const plan = params.get('plan') || (tier === 'GENERAL' ? 'Entrada general' : 'Entrada');
     renderTicket({
-      name: name, code: code, tier: 'GENERAL', planLabel: 'Entrada general',
-      title: '¡Gracias por tu registro!',
-      sub: 'Tu lugar está confirmado. Te enviamos tu ticket por correo. Guarda o descarga tu ticket:'
+      name: name, code: code, tier: tier, planLabel: plan,
+      title: _t === 'guest' ? '¡Tu ticket está listo!' : '¡Gracias por tu registro!',
+      sub: 'Te enviamos tu ticket por correo. Guarda o descarga tu ticket:'
     });
     return;
   }
