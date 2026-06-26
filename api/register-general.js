@@ -1,5 +1,8 @@
 const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const { sendTicketEmail } = require('../lib/sendTicketEmail');
+
+const SITE_URL = 'https://elevate.lospoderesdelexito.com';
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.status(405).json({ error: 'Method not allowed' }); return; }
@@ -10,13 +13,22 @@ module.exports = async (req, res) => {
       name: b.name,
       email: b.email,
       phone: b.phone || '',
-      metadata: {
-        plan: 'general',
-        evento: 'ELEVATE Experience',
-        fuente: b.fuente || ''
-      }
+      metadata: { plan: 'general', evento: 'ELEVATE Experience', fuente: b.fuente || '' }
     });
-    res.status(200).json({ ok: true, code: customer.id.slice(-10).toUpperCase() });
+    const code = customer.id.slice(-10).toUpperCase();
+
+    let emailed = false;
+    try {
+      const ticketUrl = SITE_URL + '/gracias.html?type=general&name=' +
+        encodeURIComponent(b.name) + '&code=' + encodeURIComponent(code);
+      const r = await sendTicketEmail({
+        type: 'general', name: b.name, email: b.email, code,
+        planLabel: 'Entrada general', ticketUrl
+      });
+      emailed = !!r.ok;
+    } catch (e) { emailed = false; }
+
+    res.status(200).json({ ok: true, code: code, emailed: emailed });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
