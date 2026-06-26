@@ -46,7 +46,6 @@
   <h1>Reserva tu lugar</h1>
   <div class="sum"><div class="p" id="plan-name">Entrada VIP</div><div class="price" id="plan-price">—</div></div>
 
-  <!-- Paso 1: datos de los asistentes -->
   <form id="datos">
     <div class="card">
       <h2 id="a1-title">Datos del asistente</h2>
@@ -55,11 +54,22 @@
       <input id="a1-nombre" type="text" required autocomplete="off">
       <div class="grid2">
         <div><label for="a1-correo">Correo electrónico *</label><input id="a1-correo" type="email" required autocomplete="off"></div>
-        <div><label for="a1-telefono">Teléfono</label><input id="a1-telefono" type="tel" autocomplete="off"></div>
+        <div><label for="a1-telefono">Teléfono *</label><input id="a1-telefono" type="tel" required autocomplete="off"></div>
       </div>
+      <div class="grid2">
+        <div><label for="a1-ciudad">Ciudad *</label><input id="a1-ciudad" type="text" required></div>
+        <div><label for="a1-estado">Estado / Provincia *</label><input id="a1-estado" type="text" required></div>
+      </div>
+      <label for="a1-pais">País *</label>
+      <select id="a1-pais" required>
+        <option value="">Selecciona…</option>
+        <option>Estados Unidos</option><option>México</option><option>Colombia</option>
+        <option>Venezuela</option><option>Argentina</option><option>Perú</option>
+        <option>Chile</option><option>Ecuador</option><option>España</option>
+        <option>República Dominicana</option><option>Panamá</option><option>Otro</option>
+      </select>
     </div>
 
-    <!-- Segundo asistente (solo VIP Dúo) -->
     <div class="card" id="a2-card" style="display:none">
       <h2>Datos del 2.º asistente (invitado)</h2>
       <p class="hint">La segunda entrada del paquete. Le enviaremos su propio ticket.</p>
@@ -67,8 +77,20 @@
       <input id="a2-nombre" type="text" autocomplete="off">
       <div class="grid2">
         <div><label for="a2-correo">Correo electrónico *</label><input id="a2-correo" type="email" autocomplete="off"></div>
-        <div><label for="a2-telefono">Teléfono</label><input id="a2-telefono" type="tel" autocomplete="off"></div>
+        <div><label for="a2-telefono">Teléfono *</label><input id="a2-telefono" type="tel" autocomplete="off"></div>
       </div>
+      <div class="grid2">
+        <div><label for="a2-ciudad">Ciudad *</label><input id="a2-ciudad" type="text"></div>
+        <div><label for="a2-estado">Estado / Provincia *</label><input id="a2-estado" type="text"></div>
+      </div>
+      <label for="a2-pais">País *</label>
+      <select id="a2-pais">
+        <option value="">Selecciona…</option>
+        <option>Estados Unidos</option><option>México</option><option>Colombia</option>
+        <option>Venezuela</option><option>Argentina</option><option>Perú</option>
+        <option>Chile</option><option>Ecuador</option><option>España</option>
+        <option>República Dominicana</option><option>Panamá</option><option>Otro</option>
+      </select>
     </div>
 
     <div class="card">
@@ -107,8 +129,20 @@
   if (plan === 'vip2') {
     document.getElementById('a1-title').textContent = 'Datos del 1.er asistente';
     document.getElementById('a2-card').style.display='block';
-    document.getElementById('a2-nombre').required = true;
-    document.getElementById('a2-correo').required = true;
+    ['a2-nombre','a2-correo','a2-telefono','a2-ciudad','a2-estado','a2-pais'].forEach(function(id){
+      document.getElementById(id).required = true;
+    });
+  }
+
+  function persona(p){
+    return {
+      nombre: document.getElementById(p+'-nombre').value.trim(),
+      correo: document.getElementById(p+'-correo').value.trim(),
+      telefono: document.getElementById(p+'-telefono').value.trim(),
+      ciudad: document.getElementById(p+'-ciudad').value.trim(),
+      estado: document.getElementById(p+'-estado').value.trim(),
+      pais: document.getElementById(p+'-pais').value
+    };
   }
 
   async function startCheckout(payload){
@@ -131,22 +165,8 @@
 
   document.getElementById('datos').addEventListener('submit', function(e){
     e.preventDefault();
-    const payload = {
-      plan: plan,
-      fuente: document.getElementById('fuente').value,
-      asistente1: {
-        nombre: document.getElementById('a1-nombre').value.trim(),
-        correo: document.getElementById('a1-correo').value.trim(),
-        telefono: document.getElementById('a1-telefono').value.trim()
-      }
-    };
-    if (plan === 'vip2') {
-      payload.asistente2 = {
-        nombre: document.getElementById('a2-nombre').value.trim(),
-        correo: document.getElementById('a2-correo').value.trim(),
-        telefono: document.getElementById('a2-telefono').value.trim()
-      };
-    }
+    const payload = { plan: plan, fuente: document.getElementById('fuente').value, asistente1: persona('a1') };
+    if (plan === 'vip2') { payload.asistente2 = persona('a2'); }
     startCheckout(payload);
   });
 })();
