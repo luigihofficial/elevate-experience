@@ -163,22 +163,17 @@ function makeTicket(opts){
     const d = await fetch('/api/session-status?session_id=' + encodeURIComponent(sid)).then(r=>r.json());
     if(d.payment_status !== 'paid' && d.status !== 'complete'){ fail('Tu pago aún no se ha confirmado.'); return; }
 
-    const dual = d.plan === 'vip2' && d.second;
-    makeTicket({
-      blockTitle: dual ? 'Ticket 1 — Comprador' : '',
-      name: d.name, code: d.code || sid.slice(-10).toUpperCase(),
-      tier: 'VIP', planLabel: d.plan_label || 'Acceso preferencial'
-    });
-    if (dual) {
+    const atts = d.attendees || [];
+    if (!atts.length) { fail('No encontramos los datos del ticket.'); return; }
+    atts.forEach(function(a, i){
       makeTicket({
-        blockTitle: 'Ticket 2 — Acompañante',
-        name: d.second.name, code: d.second.code,
-        tier: 'VIP', planLabel: 'VIP · Acompañante'
+        blockTitle: atts.length > 1 ? ('Ticket ' + (i+1) + ' — ' + (a.name || '')) : '',
+        name: a.name, code: a.code, tier: 'VIP', planLabel: a.label || 'VIP'
       });
-    }
+    });
     show('¡Gracias por tu compra!',
-         dual ? 'Tu lugar está confirmado. Aquí están los 2 tickets. Te los enviamos por correo; puedes descargarlos o imprimirlos:'
-              : 'Tu lugar está confirmado. Te enviamos tu ticket por correo. Guarda, descarga o imprime tu ticket:');
+         atts.length > 1 ? 'Tu lugar está confirmado. Aquí están los 2 tickets. Cada asistente lo recibe también por correo; puedes descargarlos o imprimirlos:'
+              : 'Tu lugar está confirmado. Te enviamos el ticket por correo. Guarda, descarga o imprime tu ticket:');
 
     // Enviar correos (una sola vez por sesión)
     try {

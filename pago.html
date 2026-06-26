@@ -22,14 +22,17 @@
   .sum{background:#fff;border:1px solid rgba(28,58,94,.12);border-radius:14px;padding:16px 18px;margin:14px 0 20px;display:flex;justify-content:space-between;align-items:center}
   .sum .p{font-weight:600}
   .sum .price{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--goldd);font-weight:700}
-  .card{background:#fff;border:1px solid rgba(28,58,94,.12);border-radius:14px;padding:18px 18px 6px}
-  .card h2{font-size:1.05rem;margin:0 0 2px}
-  .card .hint{color:var(--muted);font-size:.86rem;margin:0 0 12px}
-  label{display:block;font-size:.84rem;font-weight:500;margin:10px 0 5px}
-  input{width:100%;padding:12px 13px;border:1px solid rgba(28,58,94,.2);border-radius:10px;font-family:'Poppins';font-size:.98rem;color:var(--navy)}
-  input:focus{outline:none;border-color:var(--gold)}
-  .btn{margin:16px 0 14px;width:100%;border:none;cursor:pointer;font-family:'Poppins';font-weight:600;font-size:1rem;padding:14px;border-radius:999px;background:var(--gold);color:var(--navy)}
+  .card{background:#fff;border:1px solid rgba(28,58,94,.12);border-radius:14px;padding:18px 18px 8px;margin-bottom:16px}
+  .card h2{font-size:1.02rem;margin:0 0 2px}
+  .card .hint{color:var(--muted);font-size:.84rem;margin:0 0 10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:.82rem;font-weight:500;margin:10px 0 5px}
+  input,select{width:100%;padding:12px 13px;border:1px solid rgba(28,58,94,.2);border-radius:10px;font-family:'Poppins';font-size:.96rem;color:var(--navy);background:#fff}
+  input:focus,select:focus{outline:none;border-color:var(--gold)}
+  .btn{margin:8px 0 14px;width:100%;border:none;cursor:pointer;font-family:'Poppins';font-weight:600;font-size:1rem;padding:14px;border-radius:999px;background:var(--gold);color:var(--navy)}
   .btn:disabled{opacity:.6;cursor:default}
+  .pay-hint{color:var(--muted);font-size:.82rem;margin:2px 0 0}
   #checkout{margin-top:8px}
   .back{display:inline-block;margin-top:18px;color:var(--muted);text-decoration:none;font-size:.92rem}
   .back:hover{color:var(--navy)}
@@ -40,23 +43,46 @@
 <body>
 <div class="wrap">
   <div class="top"><img src="logo.svg" alt="Elevate"><div class="brand">ELEVATE <span>Experience</span></div></div>
-  <h1>Pago seguro</h1>
+  <h1>Reserva tu lugar</h1>
   <div class="sum"><div class="p" id="plan-name">Entrada VIP</div><div class="price" id="plan-price">—</div></div>
 
-  <!-- Formulario del 2do asistente (solo VIP Dúo) -->
-  <div class="card" id="segundo-card" style="display:none">
-    <h2>Datos del 2.º asistente</h2>
-    <p class="hint">Tú (1.er asistente) ingresas tus datos en el pago. Aquí registramos a tu acompañante para enviarle su propio ticket.</p>
-    <form id="segundo-form">
-      <label for="s-nombre">Nombre completo *</label>
-      <input id="s-nombre" type="text" required autocomplete="off">
-      <label for="s-correo">Correo electrónico *</label>
-      <input id="s-correo" type="email" required autocomplete="off">
-      <label for="s-telefono">Teléfono</label>
-      <input id="s-telefono" type="tel" autocomplete="off">
-      <button class="btn" id="s-continuar" type="submit">Continuar al pago</button>
-    </form>
-  </div>
+  <!-- Paso 1: datos de los asistentes -->
+  <form id="datos">
+    <div class="card">
+      <h2 id="a1-title">Datos del asistente</h2>
+      <p class="hint">Datos de quien asistirá al evento (a este correo enviaremos su ticket).</p>
+      <label for="a1-nombre">Nombre completo *</label>
+      <input id="a1-nombre" type="text" required autocomplete="off">
+      <div class="grid2">
+        <div><label for="a1-correo">Correo electrónico *</label><input id="a1-correo" type="email" required autocomplete="off"></div>
+        <div><label for="a1-telefono">Teléfono</label><input id="a1-telefono" type="tel" autocomplete="off"></div>
+      </div>
+    </div>
+
+    <!-- Segundo asistente (solo VIP Dúo) -->
+    <div class="card" id="a2-card" style="display:none">
+      <h2>Datos del 2.º asistente (invitado)</h2>
+      <p class="hint">La segunda entrada del paquete. Le enviaremos su propio ticket.</p>
+      <label for="a2-nombre">Nombre completo *</label>
+      <input id="a2-nombre" type="text" autocomplete="off">
+      <div class="grid2">
+        <div><label for="a2-correo">Correo electrónico *</label><input id="a2-correo" type="email" autocomplete="off"></div>
+        <div><label for="a2-telefono">Teléfono</label><input id="a2-telefono" type="tel" autocomplete="off"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label for="fuente">¿Cómo supiste del evento?</label>
+      <select id="fuente">
+        <option value="">Selecciona…</option>
+        <option>Instagram</option><option>Facebook</option><option>TikTok</option>
+        <option>Por uno de los autores</option><option>Recomendación de un amigo</option>
+        <option>WhatsApp</option><option>Correo electrónico</option><option>Otro</option>
+      </select>
+      <button class="btn" id="continuar" type="submit">Continuar al pago</button>
+      <p class="pay-hint">En el siguiente paso ingresas los datos de la tarjeta. El pago puede hacerlo otra persona distinta al asistente.</p>
+    </div>
+  </form>
 
   <div class="err" id="err"></div>
   <div class="loading" id="loading">Cargando el pago seguro…</div>
@@ -78,15 +104,22 @@
   const loadEl = document.getElementById('loading');
   function showErr(msg){ loadEl.style.display='none'; errEl.style.display='block'; errEl.textContent = msg; }
 
-  async function startCheckout(extra){
+  if (plan === 'vip2') {
+    document.getElementById('a1-title').textContent = 'Datos del 1.er asistente';
+    document.getElementById('a2-card').style.display='block';
+    document.getElementById('a2-nombre').required = true;
+    document.getElementById('a2-correo').required = true;
+  }
+
+  async function startCheckout(payload){
+    document.getElementById('datos').style.display='none';
     loadEl.style.display='block';
     try {
       const cfg = await fetch('/api/config').then(r=>r.json());
-      if(!cfg.publishableKey){ showErr('Falta configurar la clave de Stripe (STRIPE_PUBLISHABLE_KEY) en Vercel.'); return; }
+      if(!cfg.publishableKey){ showErr('Falta configurar la clave de Stripe en Vercel.'); return; }
       const stripe = Stripe(cfg.publishableKey);
-      const body = Object.assign({ plan }, extra || {});
       const resp = await fetch('/api/create-checkout-session', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
       });
       const data = await resp.json();
       if(!resp.ok || !data.clientSecret){ showErr(data.error || 'No se pudo iniciar el pago.'); return; }
@@ -96,21 +129,26 @@
     } catch(e){ showErr('Error: ' + e.message); }
   }
 
-  if (plan === 'vip2') {
-    document.getElementById('segundo-card').style.display='block';
-    document.getElementById('segundo-form').addEventListener('submit', function(e){
-      e.preventDefault();
-      const segundo = {
-        nombre: document.getElementById('s-nombre').value.trim(),
-        correo: document.getElementById('s-correo').value.trim(),
-        telefono: document.getElementById('s-telefono').value.trim()
+  document.getElementById('datos').addEventListener('submit', function(e){
+    e.preventDefault();
+    const payload = {
+      plan: plan,
+      fuente: document.getElementById('fuente').value,
+      asistente1: {
+        nombre: document.getElementById('a1-nombre').value.trim(),
+        correo: document.getElementById('a1-correo').value.trim(),
+        telefono: document.getElementById('a1-telefono').value.trim()
+      }
+    };
+    if (plan === 'vip2') {
+      payload.asistente2 = {
+        nombre: document.getElementById('a2-nombre').value.trim(),
+        correo: document.getElementById('a2-correo').value.trim(),
+        telefono: document.getElementById('a2-telefono').value.trim()
       };
-      document.getElementById('segundo-card').style.display='none';
-      startCheckout({ segundo: segundo });
-    });
-  } else {
-    startCheckout();
-  }
+    }
+    startCheckout(payload);
+  });
 })();
 </script>
 </body>
