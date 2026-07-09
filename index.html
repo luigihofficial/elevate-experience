@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELEVATE Experience · 5 de septiembre 2026 · Miami</title>
-<meta name="description" content="ELEVATE Experience: 5 autores, 1 escenario. Expande tu mente, activa tu poder. 5 de septiembre de 2026, Miami. Cupos limitados.">
+<title>ELEVATE Experience · Evento suspendido hasta nuevo aviso</title>
+<meta name="description" content="ELEVATE Experience se ha suspendido hasta nuevo aviso en solidaridad con Venezuela. Anunciaremos la nueva fecha próximamente.">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,6 +135,14 @@
   .solidaridad .sol-img{width:100%;height:auto;display:block;border-radius:14px;box-shadow:0 12px 26px rgba(28,58,94,.16)}
   .sol-note{text-align:center;color:var(--muted);font-size:.9rem;max-width:780px;margin:16px auto 0;line-height:1.55}
 
+  /* aviso suspensión + tachado */
+  .aviso-susp{background:#fdeeeb;border:1px solid #e6b8ad;border-left:5px solid #C0392B;border-radius:12px;margin-top:18px;padding:18px 24px;color:#7a2018;font-size:.98rem;line-height:1.6;text-align:center}
+  .aviso-susp strong{color:#C0392B}
+  .tachado{text-decoration:line-through;text-decoration-color:#C0392B;-webkit-text-decoration-color:#C0392B;text-decoration-thickness:3px;text-decoration-skip-ink:none;color:var(--muted)}
+  .btn.disabled{background:#cfcabf;color:#7c7669;pointer-events:none;cursor:default;box-shadow:none}
+  .btn.disabled:hover{background:#cfcabf;transform:none}
+  .btn-onnavy.disabled{background:transparent;border-color:rgba(246,241,231,.4);color:rgba(246,241,231,.55)}
+
   /* footer */
   footer{background:var(--navy2);color:var(--sky);text-align:center;padding:50px 0 36px}
   footer .ev{font-family:'Playfair Display',serif;color:var(--marfil);font-size:1.6rem;margin-bottom:6px}
@@ -148,16 +156,23 @@
 <nav>
   <div class="wrap">
     <div class="logo"><img src="logo.svg" alt="Elevate Experience">ELEVATE <span>Experience</span></div>
-    <div class="nav-date">5 de septiembre · Miami</div>
-    <a href="#registro" class="btn navcta">Reservar</a>
+    <div class="nav-date"><span class="tachado">5 de septiembre · Miami</span></div>
+    <span class="btn navcta disabled">Evento en pausa</span>
   </div>
 </nav>
+
+<!-- AVISO SUSPENSIÓN -->
+<div class="wrap">
+  <div class="aviso-susp">
+    <strong>Evento suspendido hasta nuevo aviso.</strong> En solidaridad con Venezuela y las familias afectadas por el doble terremoto, hemos suspendido ELEVATE Experience hasta nuevo aviso. Te informaremos de la nueva fecha por este medio y por correo.
+  </div>
+</div>
 
 <!-- SOLIDARIDAD VENEZUELA -->
 <section class="solidaridad" aria-label="Solidaridad con Venezuela">
   <div class="wrap">
     <img class="sol-img" src="banner-venezuela.png" alt="Fuerza, Venezuela. Solidaridad y esperanza en apoyo a las familias afectadas por el doble terremoto.">
-    <p class="sol-note">Por respeto y en señal de luto hacia las familias afectadas por el doble terremoto en Venezuela, hemos pospuesto el evento al <b>sábado 5 de septiembre de 2026</b>. Tu registro sigue siendo válido.</p>
+    <p class="sol-note">Acompañamos con respeto y en señal de luto a las familias afectadas por el doble terremoto en Venezuela. Gracias por tu comprensión.</p>
   </div>
 </section>
 
@@ -170,15 +185,15 @@
     <div class="divider"></div>
     <p class="slogan">Expande tu mente, activa tu poder</p>
     <div class="hero-meta">
-      Sábado 5 de septiembre de 2026 · 10:00 a.m. a 2:00 p.m.
-      <span class="venue">Embassy Suites by Hilton — Miami International Airport</span>
-      <span class="venue">3974 NW S River Dr, Miami, FL 33142</span>
+      <span class="tachado">Sábado 5 de septiembre de 2026 · 10:00 a.m. a 2:00 p.m.</span>
+      <span class="venue tachado">Embassy Suites by Hilton — Miami International Airport</span>
+      <span class="venue tachado">3974 NW S River Dr, Miami, FL 33142</span>
     </div>
     <div class="hero-cta">
-      <a href="#registro" class="btn">Reserva tu lugar</a>
+      <span class="btn disabled">Inscripciones en pausa</span>
       <a href="#autores" class="btn btn-ghost">Conoce a los autores</a>
     </div>
-    <div><span class="pill">Cupos limitados</span></div>
+    <div><span class="pill">Suspendido hasta nuevo aviso</span></div>
     <div class="hero-group"><img src="hero.png" alt="Los 5 autores de ELEVATE Experience"></div>
   </div>
 </header>
@@ -237,9 +252,9 @@
       </div>
       <div class="acard" style="justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg,#EFE8DA,#E7DECB)">
         <div class="body">
-          <div class="kicker" style="margin-bottom:8px">5 de septiembre · Miami</div>
+          <div class="kicker tachado" style="margin-bottom:8px">5 de septiembre · Miami</div>
           <h3 style="margin-bottom:10px">Vívelo en persona</h3>
-          <a href="#registro" class="btn">Reserva tu lugar</a>
+          <span class="btn disabled">Inscripciones en pausa</span>
         </div>
       </div>
     </div>
@@ -265,7 +280,7 @@
           <li>5 sorteos de un libro físico (al azar)</li>
           <li>Sujeto a disponibilidad de cupos</li>
         </ul>
-        <a href="#registro" class="btn btn-ghost">Reservar gratis</a>
+        <span class="btn btn-ghost disabled">Inscripciones en pausa</span>
       </div>
       <div class="pack featured">
         <h3>VIP</h3>
@@ -277,7 +292,7 @@
           <li>Sesión de preguntas y respuestas (Q&amp;A) post-evento</li>
           <li>Sorteos: iPad, gift card de $100 y una biblioteca física (5 libros autografiados + foto)</li>
         </ul>
-        <a href="#registro" class="btn">Reservar VIP</a>
+        <span class="btn disabled">Inscripciones en pausa</span>
       </div>
     </div>
   </div>
@@ -287,41 +302,38 @@
 <section class="navy-sec" id="registro">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker" style="color:var(--gold)">Reserva tu lugar</div>
-      <h2>Asegura tu cupo para ELEVATE Experience</h2>
-      <p>Elige tu acceso. El pago del VIP es seguro vía Stripe. Recibirás la confirmación y los detalles por correo.</p>
+      <div class="kicker" style="color:var(--gold)">Evento suspendido</div>
+      <h2>Inscripciones en pausa hasta nuevo aviso</h2>
+      <p>En solidaridad con Venezuela, ELEVATE Experience queda suspendido hasta nuevo aviso. Las inscripciones y compras están en pausa. Anunciaremos la nueva fecha por correo y en esta página.</p>
     </div>
     <div class="reg-opts">
-      <!-- ⚠️ REEMPLAZA href por tu Stripe Payment Link GRATIS ($0, con "No-cost orders" activado) -->
       <div class="reg-card">
         <div class="rt">General</div>
         <div class="rp free">Gratis</div>
-        <a href="/registro-general.html" class="btn btn-onnavy">Registrarme gratis</a>
+        <span class="btn btn-onnavy disabled">En pausa</span>
       </div>
-      <!-- ⚠️ REEMPLAZA href por tu Stripe Payment Link de $39.97 -->
       <div class="reg-card featured">
         <div class="rt">VIP · 1 ticket</div>
         <div class="rp">$39.97</div>
-        <a href="/pago.html?plan=vip1" class="btn">Comprar con Stripe</a>
+        <span class="btn disabled">En pausa</span>
       </div>
-      <!-- ⚠️ REEMPLAZA href por tu Stripe Payment Link de $69.97 -->
       <div class="reg-card">
         <div class="rt">VIP · 2 tickets</div>
         <div class="rp">$69.97</div>
-        <a href="/pago.html?plan=vip2" class="btn">Comprar con Stripe</a>
+        <span class="btn disabled">En pausa</span>
       </div>
     </div>
-    <p class="form-note" style="color:var(--sky);margin-top:22px;text-align:center">Cupos presenciales limitados · Pago seguro con tarjeta vía Stripe · ¿No alcanzas lugar? Apúntate también a los webinars posteriores.</p>
+    <p class="form-note" style="color:var(--sky);margin-top:22px;text-align:center">Gracias por tu comprensión y solidaridad. Te mantendremos informado por correo.</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="ev">ELEVATE <span>Experience</span></div>
-    <div>Sábado 5 de septiembre de 2026 · 10:00 a.m. a 2:00 p.m.</div>
-    <div>Embassy Suites by Hilton — Miami International Airport</div>
-    <div>3974 NW S River Dr, Miami, FL 33142</div>
-    <div style="margin-top:14px"><a href="#registro" class="btn navcta">Reserva tu lugar</a></div>
+    <div style="color:#e6b8ad;font-weight:600;margin-bottom:6px">Evento suspendido hasta nuevo aviso</div>
+    <div><span class="tachado">Sábado 5 de septiembre de 2026 · 10:00 a.m. a 2:00 p.m.</span></div>
+    <div><span class="tachado">Embassy Suites by Hilton — Miami International Airport</span></div>
+    <div><span class="tachado">3974 NW S River Dr, Miami, FL 33142</span></div>
     <div style="margin-top:16px;font-size:.9rem">Contacto: <a href="mailto:admin@lospoderesdelexito.com">admin@lospoderesdelexito.com</a></div>
     <p class="small">© 2026 ELEVATE Experience · Expande tu mente, activa tu poder.</p>
   </div>
