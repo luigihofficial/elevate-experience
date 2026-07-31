@@ -184,6 +184,7 @@ src="https://www.facebook.com/tr?id=1571639600982634&ev=PageView&noscript=1"
     e.preventDefault();
     const payload = { plan: plan, fuente: document.getElementById('fuente').value, asistente1: persona('a1') };
     if (plan === 'vip2') { payload.asistente2 = persona('a2'); }
+    if (window.fbq) { fbq('track', 'InitiateCheckout', { value: plan === 'vip2' ? 69.97 : 39.97, currency: 'USD', num_items: plan === 'vip2' ? 2 : 1, content_name: 'Entrada VIP ELEVATE' }); }
     startCheckout(payload);
   });
 })();
