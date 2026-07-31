@@ -3,6 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1571639600982634');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1571639600982634&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <title>¡Gracias! · ELEVATE Experience</title>
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -153,6 +170,7 @@ function makeTicket(opts){
     });
     show(_t === 'guest' ? '¡Tu ticket está listo!' : '¡Gracias por tu registro!',
          'Te enviamos tu ticket por correo. Guarda, descarga o imprime tu ticket:');
+    if (window.fbq && _t === 'general') { fbq('track', 'Lead', { content_name: 'Registro General ELEVATE', currency: 'USD', value: 0 }); }
     return;
   }
 
@@ -174,6 +192,12 @@ function makeTicket(opts){
     show('¡Gracias por tu compra!',
          atts.length > 1 ? 'Tu lugar está confirmado. Aquí están los 2 tickets. Cada asistente lo recibe también por correo; puedes descargarlos o imprimirlos:'
               : 'Tu lugar está confirmado. Te enviamos el ticket por correo. Guarda, descarga o imprime tu ticket:');
+
+    if (window.fbq) {
+      var _val = (d && d.amount_total) ? d.amount_total / 100 : (atts.length > 1 ? 69.97 : 39.97);
+      var _cur = (d && d.currency) ? d.currency.toUpperCase() : 'USD';
+      fbq('track', 'Purchase', { value: _val, currency: _cur, content_name: 'Entrada VIP ELEVATE', num_items: atts.length });
+    }
 
     // Enviar correos (una sola vez por sesión)
     try {
